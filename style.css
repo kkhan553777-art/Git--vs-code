@@ -1,0 +1,29 @@
+/* Basic styling for our page */
+
+/* Style the body */
+body {
+  font-family: Arial, sans-serif; /* Font used for text */
+  text-align: center; /* Center everything horizontally */
+  margin-top: 50px; /* Add space at the top */
+}
+
+/* Style the heading */
+h1 {
+  color: #333; /* Dark gray text color */
+}
+
+/* Style the button */
+button {
+  padding: 10px 20px; /* Space inside the button */
+  font-size: 16px; /* Text size */
+  background-color: #007bff; /* Blue background */
+  color: white; /* White text */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+}
+
+/* Button hover effect */
+button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
