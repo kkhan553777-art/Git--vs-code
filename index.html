@@ -14,20 +14,44 @@
     <br> <i>QUANTUM MECHANICS RESEARCH PAPER </i>
 
     <!-- A button that shows an alert when clicked -->
-    <button id="alertButton">Click Me!</button>
+    <<button id="alertButton" style="width:220px; height:32px; padding:4px 12px; font-size:14px;">Click Me!</button>
+
     
     <!-- Link to our JavaScript file -->
     <script src="script.js"></script>
 
-    <form action="\action.php" method="post">
+    <form action="\action.php">
       <input type="text" placeholder="ENTER YOUR NAME" required>
       <input type="email" placeholder="ENTER YOUR EMAIL" required>
-      <label="x"><hr><caption>ENTER YOUR QUALIFICATION</caption><hr>
-        <input type="checkbox" value="UG" name="UnderGraduate" id="x">UG
-      </label>
-      <label="x1">
-        <input type="checkbox" value="PG" name="PostGraduate" id="x1">PG
-      </label>
+
+      <fieldset>
+
+        <legend>Qualifications</legend>
+      
+      <label for="ug">
+        <input type="checkbox" id="ug" name="Qualifications[]" value="UG"/>
+        UnderGrduate(UG) 
+      </label><br>
+      <label for="pg">
+        <input type="checkbox" id="pg" name="Qualifications[]" value="PG"/>
+        PostGrduate(PG)
+      </label><br>
+      <label for="phd">
+    <input type="checkbox" id="phd" name="qualifications[]" value="PhD" />
+    PhD
+    </label><hr>
+
+    <!--NEW MAJOR SUBJECT DROPDOWN MENU-->
+    <label for="MAJOR" name="MAJOR" required>
+      <select id="MAJOR name=MAJOR" required>
+        <option value="cs">computer science(BCA/MCA,B.TECH)</option>
+        <option value="physics">quantum mecchanics</option>
+        <option value="mathematics">Mathematics</option>
+        <option value="chemistry">Chemistry</option>
+    </label>
+ 
+
+        </fieldset>
 
     </form>
   </body>
