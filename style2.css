@@ -1,0 +1,713 @@
+/* ==========================================================================
+   style2.css - CSS LEARNING LAB (standalone, used only by index2.html)
+   --------------------------------------------------------------------------
+   Table of contents
+     00. Cascade layers & custom properties (design tokens)
+     01. Reset / base & page chrome
+     02. Selectors
+     03. Cascade, specificity & inheritance
+     04. Colors & units
+     05. Typography
+     06. Box model
+     07. Backgrounds, borders & shadows
+     08. Display & position
+     09. Flexbox
+     10. Grid
+     11. Responsive design (media + container queries)
+     12. Transitions, transforms & animations
+     13. Custom properties & math functions
+     14. Forms & UI components
+     15. Modern CSS (:is, :where, :has, nesting, @layer, @supports, @property)
+     16. Advanced effects (filters, clip-path, blend, snap, counters, mask)
+     17. Accessibility & user preferences
+   ========================================================================== */
+
+/* ==========================================================================
+   00. CASCADE LAYERS & CUSTOM PROPERTIES
+   @layer lets you control the cascade order explicitly. Layers listed later
+   win over earlier ones, regardless of specificity. Un-layered styles
+   (everything below the reset/base layers) beat ALL layers.
+   ========================================================================== */
+@layer reset, base;
+
+/* @property registers a typed custom property so it can be ANIMATED. */
+@property --angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+:root {
+  /* Design tokens (custom properties) */
+  --color-bg: #f5f7fb;
+  --color-surface: #ffffff;
+  --color-text: #1f2937;
+  --color-muted: #6b7280;
+  --color-primary: #4f46e5;
+  --color-primary-dark: #3730a3;
+  --color-accent: #f59e0b;
+  --color-success: #10b981;
+  --color-danger: #ef4444;
+  --color-border: #e5e7eb;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2rem;
+
+  --radius: 0.5rem;
+  --shadow-sm: 0 1px 3px rgb(0 0 0 / 0.12);
+  --shadow-md: 0 6px 16px rgb(0 0 0 / 0.15);
+
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-serif: Georgia, "Times New Roman", serif;
+  --font-mono: ui-monospace, "Cascadia Code", Consolas, monospace;
+}
+
+/* Dark mode: toggled by the checkbox through :has() - no JavaScript needed */
+:root:has(#theme-switch:checked) {
+  --color-bg: #0f172a;
+  --color-surface: #1e293b;
+  --color-text: #e2e8f0;
+  --color-muted: #94a3b8;
+  --color-border: #334155;
+}
+
+/* ==========================================================================
+   01. RESET / BASE
+   ========================================================================== */
+@layer reset {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box; /* padding & border included in width */
+  }
+
+  * {
+    margin: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 8rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  img,
+  svg,
+  video {
+    display: block;
+    max-width: 100%;
+  }
+
+  input,
+  button,
+  select,
+  textarea {
+    font: inherit; /* form controls inherit page typography */
+  }
+}
+
+@layer base {
+  body {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-text);
+    background: var(--color-bg);
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+
+  a {
+    color: var(--color-primary);
+  }
+
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    padding: 0.1em 0.4em;
+    background: rgb(127 127 127 / 0.15);
+    border-radius: 0.25rem;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: #000;
+  }
+}
+
+/* Utility used by the hidden theme checkbox */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Page chrome ------------------------------------------------------------- */
+.skip-link {
+  position: absolute;
+  top: -4rem;
+  left: 1rem;
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-primary);
+  color: #fff;
+  border-radius: var(--radius);
+  z-index: 100;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+.site-header {
+  background: linear-gradient(135deg, var(--color-primary), #7c3aed);
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  box-shadow: var(--shadow-md);
+}
+
+.site-header__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+  padding: var(--space-3) var(--space-4);
+}
+
+.site-header h1 {
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+}
+
+.tagline {
+  flex: 1 1 18rem;
+  opacity: 0.9;
+}
+
+.theme-label {
+  cursor: pointer;
+  padding: var(--space-2) var(--space-3);
+  border: 2px solid currentColor;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  user-select: none;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.theme-label:hover {
+  background: #fff;
+  color: var(--color-primary);
+}
+
+/* Keyboard focus ring when the hidden checkbox is focused (general sibling ~) */
+#theme-switch:focus-visible ~ .site-header .theme-label {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.toc ul {
+  display: flex;
+  gap: var(--space-2);
+  padding: 0 var(--space-4) var(--space-3);
+  list-style: none;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.toc a {
+  display: block;
+  white-space: nowrap;
+  padding: var(--space-1) var(--space-3);
+  background: rgb(255 255 255 / 0.15);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  transition: background-color 0.2s;
+}
+
+.toc a:hover,
+.toc a:focus-visible {
+  background: rgb(255 255 255 / 0.35);
+}
+
+main {
+  width: min(100% - 2rem, 70rem); /* centered container using min() */
+  margin-inline: auto;
+  padding-block: var(--space-5);
+}
+
+.site-footer {
+  text-align: center;
+  padding: var(--space-5) var(--space-3);
+  color: var(--color-muted);
+  border-top: 1px solid var(--color-border);
+}
+
+/* Lesson wrapper ---------------------------------------------------------- */
+.lesson {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-4);
+  margin-bottom: var(--space-5);
+  position: relative;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+/* attr() + generated content: level badges */
+.lesson::before {
+  content: attr(data-level);
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  padding: 0.15rem 0.7rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: 999px;
+  color: #fff;
+}
+
+.lesson[data-level="beginner"]::before {
+  background: var(--color-success);
+}
+
+.lesson[data-level="intermediate"]::before {
+  background: var(--color-accent);
+  color: #000;
+}
+
+.lesson[data-level="advanced"]::before {
+  background: var(--color-danger);
+}
+
+.lesson h2 {
+  font-size: 1.5rem;
+  padding-right: 8rem; /* keep clear of the level badge */
+  margin-bottom: var(--space-2);
+}
+
+.lead {
+  color: var(--color-muted);
+  margin-bottom: var(--space-3);
+}
+
+.demo {
+  padding: var(--space-3);
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius);
+}
+
+.demo > * + * {
+  margin-top: var(--space-3); /* "lobotomized owl" spacing */
+}
+
+/* ==========================================================================
+   02. SELECTORS
+   ========================================================================== */
+/* Element selector */
+.selectors-demo p {
+  padding: var(--space-1) 0;
+}
+
+/* Class selector */
+.highlight {
+  background: #fef08a;
+  color: #422006;
+  padding-inline: var(--space-2);
+}
+
+/* ID selector */
+#unique-note {
+  border-left: 4px solid var(--color-primary);
+  padding-left: var(--space-3);
+}
+
+/* Structural pseudo-classes */
+.fruit-list {
+  padding-left: var(--space-4);
+}
+
+.fruit-list li:first-child {
+  font-weight: 700;
+  color: var(--color-success);
+}
+
+.fruit-list li:last-child {
+  font-style: italic;
+}
+
+.fruit-list li:nth-child(even) {
+  background: rgb(127 127 127 / 0.12);
+}
+
+.fruit-list li:nth-child(3n) {
+  text-decoration: underline;
+}
+
+.fruit-list li:not(:last-child)::marker {
+  color: var(--color-primary);
+}
+
+/* Combinators: child (>), adjacent (+), general sibling (~) */
+.selectors-demo > h4 {
+  color: var(--color-primary);
+}
+
+h4 + .after-heading {
+  color: var(--color-danger);
+  font-weight: 700;
+}
+
+h4 ~ .later-sibling {
+  color: var(--color-success);
+}
+
+/* Attribute selectors */
+.selectors-demo a {
+  margin-right: var(--space-3);
+}
+
+.selectors-demo a[target="_blank"]::after {
+  content: " \2197"; /* north-east arrow */
+}
+
+.selectors-demo a[href$=".pdf"]::before {
+  content: "\1F4C4 "; /* page emoji */
+}
+
+.selectors-demo a[href^="#"] {
+  text-decoration-style: dotted;
+}
+
+/* User-action pseudo-classes */
+.focus-input {
+  padding: var(--space-2) var(--space-3);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  color: inherit;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.focus-input:hover {
+  border-color: var(--color-muted);
+}
+
+.focus-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px rgb(79 70 229 / 0.25);
+}
+
+/* Pseudo-elements */
+.has-pseudo::first-line {
+  font-variant: small-caps;
+}
+
+.has-pseudo::after {
+  content: "this text came from CSS ::after";
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   03. CASCADE, SPECIFICITY & INHERITANCE
+   Order of power: !important > inline > #id > .class > element.
+   Equal specificity: the LATER rule wins.
+   ========================================================================== */
+.cascade-demo .spec {
+  padding: var(--space-2);
+  border-left: 6px solid var(--color-muted);
+}
+
+.cascade-demo p {
+  color: var(--color-muted); /* specificity 0,1,1 */
+}
+
+.cascade-demo .spec-class {
+  color: var(--color-accent); /* 0,2,0 - beats the element rule */
+  border-left-color: var(--color-accent);
+}
+
+#spec-id {
+  color: var(--color-primary); /* 1,0,0 - beats classes */
+  border-left-color: var(--color-primary);
+}
+
+#spec-important {
+  border-left-color: var(--color-muted);
+  /* !important overrides even the #id rule above */
+  color: var(--color-danger) !important;
+}
+
+/* Inheritance */
+.inherit-parent {
+  color: var(--color-primary);
+  font-family: var(--font-serif);
+  font-style: italic;
+  border: 2px solid var(--color-primary);
+  padding: var(--space-3);
+}
+
+.inherit-child {
+  margin-top: var(--space-2);
+  /* color + font inherit automatically; border does not */
+}
+
+.inherit-forced {
+  border: inherit; /* explicitly inherit a non-inherited property */
+}
+
+.inherit-reset {
+  color: initial; /* back to browser default */
+  font-style: unset;
+}
+
+/* ==========================================================================
+   04. COLORS & UNITS
+   ========================================================================== */
+.swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.swatch {
+  padding: var(--space-3) var(--space-4);
+  color: #fff;
+  font-weight: 600;
+  border-radius: var(--radius);
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.5);
+}
+
+.swatch-name  { background: tomato; }                               /* named */
+.swatch-hex   { background: #4f46e5; }                              /* hex */
+.swatch-rgb   { background: rgb(16 185 129); }                      /* rgb */
+.swatch-hsl   { background: hsl(280 70% 50%); }                     /* hsl */
+.swatch-alpha { background: rgb(79 70 229 / 0.5); color: #000; text-shadow: none; } /* alpha */
+.swatch-oklch { background: oklch(65% 0.2 30); }                    /* perceptual */
+.swatch-mix   { background: color-mix(in srgb, #4f46e5 50%, #f59e0b); } /* mixing */
+
+.units > * {
+  background: var(--color-primary);
+  color: #fff;
+  padding: var(--space-2);
+  margin-bottom: var(--space-2);
+  border-radius: 0.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.unit-px      { width: 200px; }         /* absolute */
+.unit-percent { width: 50%; }           /* % of the parent */
+.unit-rem     { width: min(20rem, 100%); } /* relative to root font-size */
+.unit-em      { width: min(12em, 100%); }  /* relative to own font-size */
+.unit-ch      { width: 30ch; max-width: 100%; } /* width of the "0" glyph */
+.unit-vw      { width: 40vw; max-width: 100%; } /* % of viewport width */
+
+/* ==========================================================================
+   05. TYPOGRAPHY
+   ========================================================================== */
+.font-serif { font-family: var(--font-serif); font-size: 1.25rem; }
+.font-mono  { font-family: var(--font-mono); }
+
+.weights span:nth-child(1) { font-weight: 300; }
+.weights span:nth-child(2) { font-weight: 400; }
+.weights span:nth-child(3) { font-weight: 700; }
+.weights span:nth-child(4) { font-style: italic; }
+
+.spaced {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  word-spacing: 0.5em;
+  font-size: 0.9rem;
+}
+
+.decorated {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-decoration: underline wavy var(--color-danger);
+  text-underline-offset: 0.25em;
+  text-shadow: 2px 2px 0 rgb(79 70 229 / 0.3);
+}
+
+.drop-cap {
+  text-align: justify;
+  text-indent: 1.5em;
+  line-height: 1.8;
+  hyphens: auto;
+}
+
+.drop-cap::first-letter {
+  float: left;
+  font-size: 3.5rem;
+  line-height: 0.85;
+  padding-right: 0.5rem;
+  color: var(--color-primary);
+  font-family: var(--font-serif);
+}
+
+.ellipsis {
+  max-width: 24rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.clamp-lines {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+
+.gradient-text {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, #f43f5e, #f59e0b, #10b981, #4f46e5);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* ==========================================================================
+   06. BOX MODEL
+   content -> padding -> border -> margin
+   ========================================================================== */
+.box {
+  width: 200px;
+  padding: 20px;
+  border: 8px solid var(--color-primary);
+  margin-bottom: var(--space-3);
+  background: rgb(79 70 229 / 0.1);
+}
+
+/* Total width = 200 + 40 + 16 = 256px */
+.content-box {
+  box-sizing: content-box;
+  width: 200px;
+  max-width: none;
+}
+
+/* Total width = 200px (padding & border are inside) */
+.border-box {
+  box-sizing: border-box;
+}
+
+/* Margin collapsing: the gap is 40px, NOT 60px */
+.margin-a {
+  margin-bottom: 40px;
+  background: #fde68a;
+  color: #422006;
+  padding: var(--space-2);
+}
+
+.margin-b {
+  margin-top: 20px;
+  background: #a7f3d0;
+  color: #064e3b;
+  padding: var(--space-2);
+}
+
+.outline-box {
+  outline: 3px dashed var(--color-danger);
+  outline-offset: 4px;
+  padding: var(--space-2);
+  width: fit-content;
+}
+
+/* ==========================================================================
+   07. BACKGROUNDS, BORDERS & SHADOWS
+   ========================================================================== */
+.bg-demo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: var(--space-3);
+}
+
+.bg-demo > * + * {
+  margin-top: 0; /* grid gap handles spacing */
+}
+
+.bg-card {
+  min-height: 7rem;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: var(--space-3);
+  font-weight: 700;
+  color: #fff;
+  border-radius: var(--radius);
+  text-shadow: 0 1px 3px rgb(0 0 0 / 0.5);
+}
+
+.bg-linear {
+  background: linear-gradient(135deg, #f43f5e, #f59e0b);
+}
+
+.bg-radial {
+  background: radial-gradient(circle at 30% 30%, #fde68a, #f97316 60%, #7c2d12);
+}
+
+.bg-conic {
+  background: conic-gradient(from 0deg, #f43f5e, #f59e0b, #10b981, #4f46e5, #f43f5e);
+}
+
+.bg-pattern {
+  background:
+    repeating-linear-gradient(45deg, rgb(255 255 255 / 0.2) 0 10px, transparent 10px 20px),
+    #0ea5e9;
+}
+
+.bg-multi {
+  background-image:
+    radial-gradient(circle at 20% 20%, rgb(255 255 255 / 0.6) 0 12%, transparent 13%),
+    linear-gradient(to bottom, #6366f1, #1e1b4b);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.bg-radius {
+  background: var(--color-success);
+  border-radius: 2rem 0.25rem 2rem 0.25rem;
+}
+
+.bg-shadow {
+  background: var(--color-primary);
+  box-shadow:
+    0 2px 4px rgb(0 0 0 / 0.2),
+    0 12px 24px rgb(79 70 229 / 0.45),
+    inset 0 -4px 0 rgb(0 0 0 / 0.2);
+}
+
+/* Gradient border: gradient on the border-box, solid on the padding-box */
+.bg-border {
+  color: var(--color-text);
+  border: 4px solid transparent;
+  background:
+    linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
+    linear-gradient(135deg, #f43f5e, #4f46e5) border-box;
+  text-shadow: none;
+}
+
+/*@@CSS_NEXT@@*/

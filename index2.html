@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS Learning Lab - From Basic to Advanced</title>
+    <!-- Only style2.css is connected to this page -->
+    <link rel="stylesheet" href="style2.css" />
+  </head>
+  <body>
+    <!-- CSS-only dark mode switch (Lesson 14 explains :has()) -->
+    <input type="checkbox" id="theme-switch" class="visually-hidden" />
+
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="site-header__inner">
+        <h1>CSS Learning Lab</h1>
+        <p class="tagline">15 lessons &middot; basic &rarr; advanced &middot; open <code>style2.css</code> next to this page</p>
+        <label for="theme-switch" class="theme-label">Toggle dark mode</label>
+      </div>
+      <nav class="toc" aria-label="Lessons">
+        <ul>
+          <li><a href="#l1">1 Selectors</a></li>
+          <li><a href="#l2">2 Cascade</a></li>
+          <li><a href="#l3">3 Colors &amp; Units</a></li>
+          <li><a href="#l4">4 Typography</a></li>
+          <li><a href="#l5">5 Box Model</a></li>
+          <li><a href="#l6">6 Backgrounds</a></li>
+          <li><a href="#l7">7 Display &amp; Position</a></li>
+          <li><a href="#l8">8 Flexbox</a></li>
+          <li><a href="#l9">9 Grid</a></li>
+          <li><a href="#l10">10 Responsive</a></li>
+          <li><a href="#l11">11 Animation</a></li>
+          <li><a href="#l12">12 Variables</a></li>
+          <li><a href="#l13">13 Forms &amp; UI</a></li>
+          <li><a href="#l14">14 Modern CSS</a></li>
+          <li><a href="#l15">15 Effects</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="main">
+      <!-- ============ LESSON 1 ============ -->
+      <section class="lesson" id="l1" data-level="beginner">
+        <h2>1. Selectors</h2>
+        <p class="lead">Selectors choose which elements a rule applies to.</p>
+        <div class="demo selectors-demo">
+          <p>Plain paragraph (element selector <code>p</code>).</p>
+          <p class="highlight">Class selector <code>.highlight</code>.</p>
+          <p id="unique-note">ID selector <code>#unique-note</code>.</p>
+          <ul class="fruit-list">
+            <li>Apple</li>
+            <li>Banana</li>
+            <li>Cherry</li>
+            <li>Dragonfruit</li>
+          </ul>
+          <h4>Heading</h4>
+          <p class="after-heading">Adjacent sibling <code>h4 + p</code>.</p>
+          <p class="later-sibling">General sibling <code>h4 ~ p</code>.</p>
+          <p>
+            <a href="https://example.com" target="_blank" rel="noopener">External link</a>
+            <a href="guide.pdf">PDF link</a>
+            <a href="#l1">Internal link</a>
+          </p>
+          <input type="text" class="focus-input" placeholder="Click me (:focus)" />
+          <p class="has-pseudo">Pseudo-elements add content: </p>
+        </div>
+      </section>
+
+      <!-- ============ LESSON 2 ============ -->
+      <section class="lesson" id="l2" data-level="beginner">
+        <h2>2. Cascade, Specificity &amp; Inheritance</h2>
+        <p class="lead">When rules conflict: importance, then specificity, then source order.</p>
+        <div class="demo cascade-demo">
+          <p class="spec">Element rule only.</p>
+          <p class="spec spec-class">Class beats element.</p>
+          <p class="spec spec-class" id="spec-id">ID beats class.</p>
+          <p class="spec spec-class" id="spec-important">!important beats everything (use sparingly).</p>
+          <div class="inherit-parent">
+            Parent sets color, font and border.
+            <p class="inherit-child">Child inherits <em>color</em> but not <em>border</em>.</p>
+            <p class="inherit-child inherit-forced">Child forced with <code>border: inherit</code>.</p>
+            <p class="inherit-child inherit-reset">Child with <code>color: initial</code>.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ LESSON 3 ============ -->
+      <section class="lesson" id="l3" data-level="beginner">
+        <h2>3. Colors &amp; Units</h2>
+        <p class="lead">Color formats and absolute / relative length units.</p>
+        <div class="demo">
+          <div class="swatches">
+            <span class="swatch swatch-name">name</span>
+            <span class="swatch swatch-hex">#hex</span>
+            <span class="swatch swatch-rgb">rgb()</span>
+            <span class="swatch swatch-hsl">hsl()</span>
+            <span class="swatch swatch-alpha">alpha</span>
+            <span class="swatch swatch-oklch">oklch()</span>
+            <span class="swatch swatch-mix">color-mix()</span>
+          </div>
+          <div class="units">
+            <div class="unit unit-px">200px</div>
+            <div class="unit unit-percent">50%</div>
+            <div class="unit unit-rem">20rem (capped)</div>
+            <div class="unit unit-em">12em</div>
+            <div class="unit unit-ch">30ch</div>
+            <div class="unit unit-vw">40vw</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ LESSON 4 ============ -->
+      <section class="lesson" id="l4" data-level="beginner">
+        <h2>4. Typography</h2>
+        <p class="lead">Fonts, spacing, alignment and text effects.</p>
+        <div class="demo typography-demo">
+          <p class="font-serif">Serif font stack.</p>
+          <p class="font-mono">Monospace font stack.</p>
+          <p class="weights"><span>Light 300</span> <span>Regular 400</span> <span>Bold 700</span> <span>Italic</span></p>
+          <p class="spaced">Letter &amp; word spacing, uppercase</p>
+          <p class="decorated">Wavy underline and text shadow</p>
+          <p class="drop-cap">Drop caps use the ::first-letter pseudo-element. Line height, text indentation and justified alignment make long paragraphs far easier to read, so always tune them for body copy.</p>
+          <p class="ellipsis">This very long line of text will be truncated with an ellipsis because it does not fit inside its box.</p>
+          <p class="clamp-lines">This paragraph is clamped to two lines. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
+          <p class="gradient-text">Gradient text</p>
+        </div>
+      </section>
+
+      <!-- ============ LESSON 5 ============ -->
+      <section class="lesson" id="l5" data-level="beginner">
+        <h2>5. The Box Model</h2>
+        <p class="lead">Every element is a box: content + padding + border + margin.</p>
+        <div class="demo box-demo">
+          <div class="box content-box">content-box: width 200px + padding + border</div>
+          <div class="box border-box">border-box: width 200px total</div>
+          <div class="margin-row">
+            <div class="margin-a">Margin bottom 40px</div>
+            <div class="margin-b">Margin top 20px (collapses!)</div>
+          </div>
+          <div class="outline-box">Outline does not take space</div>
+        </div>
+      </section>
+
+      <!-- ============ LESSON 6 ============ -->
+      <section class="lesson" id="l6" data-level="beginner">
+        <h2>6. Backgrounds, Borders &amp; Shadows</h2>
+        <p class="lead">Decorate boxes with gradients, rounded corners and depth.</p>
+        <div class="demo bg-demo">
+          <div class="bg-card bg-linear">linear-gradient</div>
+          <div class="bg-card bg-radial">radial-gradient</div>
+          <div class="bg-card bg-conic">conic-gradient</div>
+          <div class="bg-card bg-pattern">repeating pattern</div>
+          <div class="bg-card bg-multi">multiple backgrounds</div>
+          <div class="bg-card bg-radius">border-radius</div>
+          <div class="bg-card bg-shadow">box-shadow</div>
+          <div class="bg-card bg-border">gradient border</div>
+        </div>
+      </section>
+
+      <!-- ============ LESSON 7 ============ -->
+      <section class="lesson" id="l7" data-level="intermediate">
+        <h2>7. Display &amp; Position</h2>
+        <p class="lead">Control flow with <code>display</code> and placement with <code>position</code>.</p>
+        <div class="demo display-demo">
+          <div class="display-row">
+            <span class="d-inline">inline</span>
+            <span class="d-inline">inline</span>
+            <span class="d-inline-block">inline-block</span>
+            <span class="d-inline-block">inline-block</span>
+            <div class="d-block">block</div>
+            <div class="d-none">display: none (you cannot see me)</div>
+          </div>
+          <div class="position-stage">
+            <div class="pos-static">static</div>
+            <div class="pos-relative">relative (shifted)</div>
+            <div class="pos-absolute">absolute</div>
+            <div class="pos-z pos-z-1">z-index 1</div>
+            <div class="pos-z pos-z-2">z-index 2</div>
+          </div>
+          <div class="sticky-scroller">
+            <div class="sticky-header">Sticky header</div>
+            <p>Scroll inside this box.</p>
+            <p>The header sticks to the top.</p>
+            <p>Position sticky mixes relative and fixed.</p>
+            <p>Keep scrolling&hellip;</p>
+            <p>Almost there&hellip;</p>
+            <p>The end.</p>
+          </div>
+          <div class="overflow-demo">
+            <p>Overflow auto adds scrollbars when content is larger than the box. This text is deliberately long so you can see the scrolling behavior, including how the box remains a fixed size while the content flows past its edges.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ LESSON 8 ============ -->
+      <section class="lesson" id="l8" data-level="intermediate">
+        <h2>8. Flexbox</h2>
+        <p class="lead">One-dimensional layout: rows or columns.</p>
+        <div class="demo">
+          <div class="flex-nav">
+            <span class="flex-logo">Logo</span>
+            <a href="#l8">Home</a>
+            <a href="#l8">About</a>
+            <a href="#l8" class="flex-push">Contact</a>
+          </div>
+          <div class="flex-center"><div>Centered</div></div>
+          <div class="flex-grow-row">
+            <div class="fg fg-1">flex: 1</div>
+            <div class="fg fg-2">flex: 2</div>
+            <div class="fg fg-fixed">fixed 120px</div>
+          </div>
+          <div class="flex-wrap-row">
+            <div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div>
+          </div>
+          <div class="flex-order-row">
+            <div class="o-3">DOM 1 (order 3)</div>
+            <div class="o-1">DOM 2 (order 1)</div>
+            <div class="o-2">DOM 3 (order 2)</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ LESSON 9 ============ -->
+      <section class="lesson" id="l9" data-level="intermediate">
+        <h2>9. CSS Grid</h2>
+        <p class="lead">Two-dimensional layout: rows and columns together.</p>
+        <div class="demo">
+          <div class="grid-basic">
+            <div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div>
+          </div>
+          <div class="grid-auto">
+            <div>auto-fit</div><div>auto-fit</div><div>auto-fit</div><div>auto-fit</div><div>auto-fit</div>
+          </div>
+          <div class="grid-areas">
+            <div class="ga-header">header</div>
+            <div class="ga-sidebar">sidebar</div>
+            <div class="ga-content">content</div>
+            <div class="ga-footer">footer</div>
+          </div>
+          <div class="grid-span">
+            <div class="gs-wide">span 2 columns</div>
+            <div class="gs-tall">span 2 rows</div>
+            <div>c</div><div>d</div><div>e</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ LESSON 10 ============ -->
+      <section class="lesson" id="l10" data-level="intermediate">
+        <h2>10. Responsive Design</h2>
+        <p class="lead">Resize your browser: media queries and container queries react.</p>
+        <div class="demo">
+          <div class="responsive-banner">Background changes at 600px and 900px viewport widths</div>
+          <div class="container-wrap">
+            <article class="rcard">
+              <div class="rcard__media">Media</div>
+              <div class="rcard__body">
+                <h4>Container query card</h4>
+                <p>Switches to a horizontal layout when its container is wide.</p>
+              </div>
+            </article>
+          </div>
+          <div class="ratio-box">16 / 9</div>
+        </div>
+      </section>
+
+      <!-- ============ LESSON 11 ============ -->
+      <section class="lesson" id="l11" data-level="intermediate">
+        <h2>11. Transitions, Transforms &amp; Animations</h2>
+        <p class="lead">Hover over the boxes to see them move.</p>
+        <div class="demo anim-demo">
+          <button type="button" class="t-button">Hover me</button>
+          <div class="t-box t-rotate">rotate</div>
+          <div class="t-box t-scale">scale</div>
+          <div class="t-box t-skew">skew</div>
+          <div class="t-scene"><div class="t-box t-3d">3D flip</div></div>
+          <div class="a-spinner" role="img" aria-label="Loading"></div>
+          <div class="a-bounce">bounce</div>
+          <div class="a-pulse">pulse</div>
+          <div class="a-slide">slide in</div>
+          <div class="a-typing">Typing effect...</div>
+        </div>
+      </section>
+
+      <!-- ============ LESSON 12 ============ -->
+      <section class="lesson" id="l12" data-level="advanced">
+        <h2>12. Custom Properties &amp; Math Functions</h2>
+        <p class="lead">Variables, <code>calc()</code>, <code>min()</code>, <code>max()</code>, <code>clamp()</code>.</p>
+        <div class="demo">
+          <div class="theme-chip chip-default">Default theme</div>
+          <div class="theme-chip chip-ocean">Ocean theme (overrides variables)</div>
+          <div class="theme-chip chip-sunset">Sunset theme (overrides variables)</div>
+          <div class="math-box math-calc">calc(100% - 40px)</div>
+          <div class="math-box math-min">min(100%, 400px)</div>
+          <div class="math-box math-max">max(50%, 250px)</div>
+          <div class="math-box math-clamp">clamp(200px, 50%, 500px)</div>
+          <p class="fluid-text">Fluid type with clamp()</p>
+        </div>
+      </section>
+
+      <!-- ============ LESSON 13 ============ -->
+      <section class="lesson" id="l13" data-level="advanced">
+        <h2>13. Forms &amp; UI Components</h2>
+        <p class="lead">Inputs, validation states, custom controls, tables, tooltips and badges.</p>
+        <div class="demo ui-demo">
+          <form class="ui-form" onsubmit="return false">
+            <label class="field">
+              <span>Email (validated)</span>
+              <input type="email" placeholder="you@example.com" required />
+            </label>
+            <label class="field">
+              <span>Disabled</span>
+              <input type="text" value="Can't edit" disabled />
+            </label>
+            <label class="field">
+              <span>Select</span>
+              <select><option>One</option><option>Two</option></select>
+            </label>
+            <label class="switch">
+              <input type="checkbox" />
+              <span class="switch__track"></span>
+              Custom toggle
+            </label>
+            <label class="field">
+              <span>Range</span>
+              <input type="range" />
+            </label>
+            <div class="btn-row">
+              <button type="button" class="btn btn-primary">Primary</button>
+              <button type="button" class="btn btn-outline">Outline</button>
+              <button type="button" class="btn btn-ghost" disabled>Disabled</button>
+            </div>
+          </form>
+          <table class="ui-table">
+            <thead><tr><th>Language</th><th>Type</th><th>Year</th></tr></thead>
+            <tbody>
+              <tr><td>HTML</td><td>Markup</td><td>1993</td></tr>
+              <tr><td>CSS</td><td>Style</td><td>1996</td></tr>
+              <tr><td>JavaScript</td><td>Script</td><td>1995</td></tr>
+              <tr><td>Python</td><td>General</td><td>1991</td></tr>
+            </tbody>
+          </table>
+          <details class="ui-details">
+            <summary>Click to expand (details / summary)</summary>
+            <p>Hidden content styled with CSS only.</p>
+          </details>
+          <p><span class="tooltip" tabindex="0" data-tip="I come from attr()!">Hover for tooltip</span></p>
+          <p><span class="badge">New</span> <span class="badge badge-warn">Beta</span> <span class="badge badge-danger">Deprecated</span></p>
+        </div>
+      </section>
+
+      <!--@@NEXT@@-->
+    </main>
+
+    <footer class="site-footer">
+      <p>Built for learning &middot; Edit <code>style2.css</code> and refresh to experiment.</p>
+    </footer>
+  </body>
+</html>
