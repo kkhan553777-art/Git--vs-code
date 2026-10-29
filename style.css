@@ -1,22 +1,62 @@
 /* Basic styling for our page */
+@layer reset, base;
+
+/* @property registers a typed custom property so it can be ANIMATED. */
+
+@property --angle{          /* missing space after @property */
+  syntax:"<angle>"         /* value must be a quoted string */
+  inherits false;        /* OK, but needs semicolon (has it) */
+  initial: value 0odeg;  /* wrong property name + typo "0odeg" */
+}
+
+:root {
+  --color-bg: #070707;   /* hex */
+  --color-surface:rgb(5, 4, 4);
+  --color-text:magenta;
+  --color-primary:black;
+  --color-primary-dark:magenta;
+
+  --space-1:0.25rem;
+  --space-2:0.5rem;
+  --space-3:1rem;
+
+  --radius:0.5rem;
+  --shadow-sm:black;
+}
+
+:root:has(#theme-switch:checked){
+   --color-bg: #070707;   /* hex */
+  --color-surface:rgb(5, 4, 4);
+  --color-text:magenta;
+  --color-muted:var(--color-muted);
+}
+
+@layer reset{
+  *,
+  *::before,
+  *::after{
+  box-sizing : border-box;
+}
+}
+
 
 /* Style the body */
 body {
-  font-family: Arial, sans-serif; /* Font used for text */
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; /* Font used for text */
   text-align: center; /* Center everything horizontally */
   margin-top: 50px; /* Add space at the top */
 }
 
 /* Style the heading */
 h1 {
-  color: #f30606ef; 
+  color: #0508e4; 
 }
 
 /* Style the button */
 button {
   padding: 10px 20px; /* Space inside the button */
   font-size: 16px; /* Text size */
-  background-color: #007bff; /* Blue background */
+  background-color: #9b06f1; 
   color: white; /* White text */
   width: 100px;
   height: 40px;
@@ -37,5 +77,5 @@ button {
 
 /* Button hover effect */
 button:hover {
-  background-color: #1c1aa5; 
+  background-color: #0905ff; 
 }
