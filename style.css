@@ -10,10 +10,10 @@
 }
 
 :root {
-  --color-bg: #070707;   /* hex */
+  --color-bg: #f5eded;   /* hex */
   --color-surface:rgb(5, 4, 4);
   --color-text:magenta;
-  --color-primary:black;
+  --color-primary:rgb(236, 224, 224);
   --color-primary-dark:magenta;
 
   --space-1:0.25rem;
@@ -39,17 +39,53 @@
 }
 }
 
+*{
+  
+  background-color: #f7f4f4;
+  margin:0;
+}
+html{
+  scroll-behavior: smooth;
+  overflow-y: auto;
+  scroll-padding: 8rem;
+  -webkit-text-size-adjust: 100%;
+}
 
 /* Style the body */
 body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; /* Font used for text */
   text-align: center; /* Center everything horizontally */
   margin-top: 50px; /* Add space at the top */
+  padding-bottom: 500px;
 }
 
 /* Style the heading */
 h1 {
-  color: #0508e4; 
+  color: #f7f7fa; 
+}
+
+/*SELECTING LIST THROUGH CLASS ATTRIBUTE*/
+.mylist{
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: lighter;
+  text-align: left;
+  text-decoration: underline;
+}
+
+/*STRUCTURAL PSUEDO-CLASSES*/
+
+.mylist:nth-child(n) {  /*FORMULAE: an+b| n - selected all */
+  background-color:  #fdfbfd;
+  border-top: 1px solid red;
+  border-bottom: 1px solid red;
+ 
+}
+
+/*SELECTING PARA THROUGH ID ATTRIBUTE*/
+#footer{
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: #000000;
+  font-weight: lighter;
 }
 
 /* Style the button */
@@ -77,5 +113,40 @@ button {
 
 /* Button hover effect */
 button:hover {
-  background-color: #0905ff; 
+  background-color: #03530e; 
 }
+button:link{
+color: #1d05f5;
+}
+
+/*LINK PSUEDO CLASSES/ELEMENT EFFECT */
+
+#ns-link{ 
+   /*FIRST I HAVE TO LEARN BOX-MODEL */
+border-radius: 4px;
+  padding: 16px 16px;
+  width:150px;
+  height:75px;
+  text-align: center;
+  display: inline-flex;
+  text-decoration: underline;
+} 
+/*INTERACTIVE PSUEDO CLASSES*/
+#ns-link:hover{
+  color: #070707;
+}
+
+#ns-link:link{
+  color:#1d104d;
+}
+
+#ns-link:focus{
+  background-color: rgb(42, 151, 115);
+}
+
+#ns-link:active{
+  border: 2px solid green;
+}
+
+
+  
